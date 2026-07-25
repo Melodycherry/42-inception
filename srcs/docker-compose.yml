@@ -1,0 +1,17 @@
+# description de l'infrastructure ici
+
+# version: '3.8'
+# services: 
+  # et la on met nginx
+  # mariadb
+  # ...
+
+
+# COMMENT CA MARCHE
+# ce fichier va servir de chef d'orchestre pour lancer les conteneurs
+# pour nginx, va lire le dockerfile qui est ds le doss ... et construit le 
+# pour mariadb, la lire ds requirement/maria .... 
+# pour wordpress, pareil, lire le dockerfile ds requirement/wordpress
+# 
+# donc docker va lancer 3 build, creer 3 images, et ensuite lancer 3 conteneurs
+# sur le meme reseau 
