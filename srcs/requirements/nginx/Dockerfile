@@ -12,7 +12,7 @@ RUN mkdir -p /etc/nginx/ssl && \
 	openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 		-keyout /etc/nginx/ssl/inception.key \
 		-out /etc/nginx/ssl/inception.crt \
-		-subj "/C=CH/ST=Vaud/L=Lausanne/O=42/OU=42/CN=localhost" \
+		-subj "/C=CH/ST=Vaud/L=Lausanne/O=42/OU=42/CN=mlaffita.42.fr"
 
 COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
 
@@ -28,6 +28,9 @@ CMD ["nginx", "-g", "daemon off;"]
 # copie du fichier de config nginx
 # generation des cles SSL pour HTTPS ( port 443 ?? )
 
-#
-#
-#
+# -x509 : va generer le certificat auto-signe
+# -nodes : pas de mot de passe pour la cle privee
+# -days 365 : valide pour 365 jours
+# -newkey rsa:2048 : genere une nouvelle cle privee de 2048 bits
+# -subj : defini les info du certificat ( pays, etat, ville, organisation, unite, nom commun )
+# CN = common name, donc nom de domaine 
