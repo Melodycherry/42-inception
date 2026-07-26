@@ -1,0 +1,13 @@
+# Fichiers et dossiers Git
+.git
+.gitignore
+
+# Fichiers système et caches
+.DS_Store
+*.swp
+*~
+
+# Clés ou certificats
+*.pem
+*.key
+*.crt

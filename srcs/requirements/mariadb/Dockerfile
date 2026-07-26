@@ -1,20 +1,23 @@
-# la version 
 FROM debian:bookworm
 
 # installation des logiciels et dependance
-RUN apt-get update && apt-get install -y
-	# nginx ?
-	# mariadb ?
-	# wordpress ? 
+RUN apt-get update && apt-get install -y \
+	mariadb-server \
+	&& rm -rf /var/lib/apt/lists/*
 
-COPY 
-# mettre config et copie des fichiers ?
+# Création du dossier nécessaire pour le socket MariaDB avec les bons droits
+RUN mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld
 
-RUN
-# droit d execution, environnement, etc
+COPY conf/mariadb.conf /etc/mysql/mariadb.conf.d/mariadb.conf
+COPY tools/mariadb.sh /usr/local/bin/mariadb.sh
 
-ENTRYPOINT
-# commande au lancement du container
+# droit d execution
+RUN chmod +x /usr/local/bin/mariadb.sh
+
+EXPOSE 3306
+
+# commande au lancement du container ( on lance le script)
+ENTRYPOINT ["/usr/local/bin/mariadb.sh"]
 
 
 
