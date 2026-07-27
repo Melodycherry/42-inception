@@ -1,1 +1,7 @@
-*This project has been created as part of the 42 curriculum by <mlaffita>* 
+*This project has been created as part of the 42 curriculum by mlaffita* 
+
+# Description
+
+# Instructions
+
+# Ressources

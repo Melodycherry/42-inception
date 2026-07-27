@@ -5,7 +5,9 @@
   # et la on met nginx
   # mariadb
   # ...
-
+# volume
+# network
+# secrets
 
 # COMMENT CA MARCHE
 # ce fichier va servir de chef d'orchestre pour lancer les conteneurs
@@ -15,3 +17,10 @@
 # 
 # donc docker va lancer 3 build, creer 3 images, et ensuite lancer 3 conteneurs
 # sur le meme reseau 
+#
+# Preciser que NGINX dépend de WordPress et que WordPress dépend de MariaDB:
+# services:
+# 	nginx:
+#     	depends_on:
+#       		- wordpress
+# Il faut preciser aussi quel env utilisert ( meme si c'est le meme env pout tout les srvices )
