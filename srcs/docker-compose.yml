@@ -1,13 +1,94 @@
-# description de l'infrastructure ici
+# 3.8 est la norme stable pour docker
+version: '3.8'
 
+# Bloc services va lister tous les conteneurs 
+services:
+
+  # Data base MariaDB
+  mariadb:
+    # build va construire image localement a partir des fichiers sources (avec chemin du doss + dockerfile)
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile
+    container_name: mariadb
+    # Si le service plante ou si la machine redémarre, Docker relancera automatiquement le conteneur
+    restart: always
+    env_file:
+      - ../.env
+    # Associe le volume nommé db_data au dossier /var/lib/mysql à l'intérieur du conteneur (là où MariaDB stocke physiquement les tables SQL).
+    volumes:
+      - db_data:/var/lib/mysql
+    # Va connecter le conteneur au reseau prive 
+    networks:
+      - inception_network
+
+  # website WordPress
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+    container_name: wordpress
+    restart: always
+    # etabli un ordre : Docker lancera le conteneur mariadb avant de démarrer wordpress
+    depends_on:
+      - mariadb
+    env_file:
+      - ../.env
+    volumes:
+      - wp_data:/var/www/html
+    networks:
+      - inception_network
+
+  # web server NGINX
+  nginx:
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    restart: always
+    # ordre ici aussi : NGINX attend que le conteneur wordpress soit démarré avant de se lancer
+    depends_on:
+      - wordpress
+    # Le seul point d entree !!! (check diagram sujet)
+    ports:
+      - "443:443"
+    # NGINX monte le même volume wp_data que WordPress
+    # cela permet à NGINX de lire directement les fichiers statiques (.css, .js, images) dans /var/www/html sans repasser par PHP.
+    volumes:
+      - wp_data:/var/www/html
+    networks:
+      - inception_network
+
+# volumes en bindmount x 2
+volumes:
+  wp_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      # Force Docker à écrire les données directement dans les dossiers réels du disque dur de la machine hôte
+      device: /home/mlaffita/data/wordpress
+  db_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/mlaffita/data/mariadb
+
+# reseau virtuel de type bridge 
+networks:
+  inception_network:
+    driver: bridge
+
+# description de l'infrastructure ici
 # version: '3.8'
 # services: 
-  # et la on met nginx
-  # mariadb
-  # ...
+# et la on met nginx
+# mariadb
+# ...
 # volume
 # network
-# secrets
+# secrets ??
 
 # COMMENT CA MARCHE
 # ce fichier va servir de chef d'orchestre pour lancer les conteneurs
@@ -24,3 +105,21 @@
 #     	depends_on:
 #       		- wordpress
 # Il faut preciser aussi quel env utilisert ( meme si c'est le meme env pout tout les srvices )
+
+
+# VOLUMES BIND MOUNT
+# De base un conteneur est ephemere. Si on le docker rm, tt ce qui est ecrit sur le disc virtuel disparait
+# Ms bindmount va creer une passerelle entre un doss de l'ordi hote et un doss du conteneur 
+# permet la persistance des données. Donc si on supprime le conteneur, les données restent sur l'ordi hote
+
+# RESEAU BRIDGE
+# mode bridge va creer un switch virtuel au sein de docker. Tts les conteneurs branches sur ce reseau vont recevoir adresse IP privee
+# Sur un réseau Bridge personnalisé, Docker intègre un serveur DNS interne
+# donc chaque conteneur peut joindre un autre conteneur en utilisant le nom du service comme nom d'hôte
+# ( defini ds le docker compose ) 
+# NGINX communique avec WordPress via wordpress:9000 
+# WordPress communique avec MariaDB via mariadb:3306
+
+# seul NGINX est exposé sur le port 443 de l'ordi
+# maria db et wordpress ne sont pas exposés sur l'ordi hote, donc pas accessibles depuis l'exterieur
+# communiquent uniquement a l'interieur du reseau bridge inception-network
