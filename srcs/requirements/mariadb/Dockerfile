@@ -8,7 +8,10 @@ RUN apt-get update && apt-get install -y \
 # Création du dossier nécessaire pour le socket MariaDB avec les bons droits
 RUN mkdir -p /run/mysqld && chown -R mysql:mysql /run/mysqld
 
-COPY conf/mariadb.conf /etc/mysql/mariadb.conf.d/mariadb.conf
+# Copie de la configuration (en écrasant 50-server.cnf pour forcer 0.0.0.0:3306)
+COPY conf/mariadb.conf /etc/mysql/mariadb.conf.d/50-server.cnf
+
+# Copie du script d'initialisation
 COPY tools/mariadb.sh /usr/local/bin/mariadb.sh
 
 # droit d execution
