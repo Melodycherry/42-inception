@@ -1,7 +1,11 @@
 #!/bin/sh
 
 # wait que MariaDB soit lancé et ready
-sleep 10
+echo "=== En attente de MariaDB... ==="
+while ! mariadb-admin ping -h"mariadb" --silent; do
+    sleep 2
+done
+echo "=== MariaDB est prêt ! ==="
 
 # On va ds le doss htlm de wordpress 
 cd /var/www/html
@@ -69,3 +73,10 @@ exec php-fpm8.2 -F
 # cree le foichier config.php et le connecte au contenmeur mariadb:3306
 # configuration du site, admin et user 
 # puis passe la main a php-fpm8.2 pour qu'il reste en premier plan
+
+# While do done 
+# Le sujet interdit de garder un conteneur en vie artificiellement avec 
+# while true ou sleep infinity comme commande finale.
+# ICI test d'attente temporaire : il fait un ping sur MariaDB et s'arrête dès que la base répond
+# Une fois la configuration terminée, mon script passe la main à php-fpm8.2 -F 
+# via exec, qui devient le vrai processus principal.
