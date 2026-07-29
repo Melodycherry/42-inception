@@ -62,18 +62,9 @@ services:
 # volumes en bindmount x 2
 volumes:
   wp_data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      # Force Docker à écrire les données directement dans les dossiers réels du disque dur de la machine hôte
-      device: /home/mlaffita/data/wordpress
+    name: wp_data
   db_data:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: /home/mlaffita/data/mariadb
+    name: db_data
 
 # reseau virtuel de type bridge 
 networks:
@@ -106,12 +97,6 @@ networks:
 #       		- wordpress
 # Il faut preciser aussi quel env utilisert ( meme si c'est le meme env pout tout les srvices )
 
-
-# VOLUMES BIND MOUNT
-# De base un conteneur est ephemere. Si on le docker rm, tt ce qui est ecrit sur le disc virtuel disparait
-# Ms bindmount va creer une passerelle entre un doss de l'ordi hote et un doss du conteneur 
-# permet la persistance des données. Donc si on supprime le conteneur, les données restent sur l'ordi hote
-
 # RESEAU BRIDGE
 # mode bridge va creer un switch virtuel au sein de docker. Tts les conteneurs branches sur ce reseau vont recevoir adresse IP privee
 # Sur un réseau Bridge personnalisé, Docker intègre un serveur DNS interne
@@ -123,3 +108,9 @@ networks:
 # seul NGINX est exposé sur le port 443 de l'ordi
 # maria db et wordpress ne sont pas exposés sur l'ordi hote, donc pas accessibles depuis l'exterieur
 # communiquent uniquement a l'interieur du reseau bridge inception-network
+
+# VOLUMES BIND MOUNT
+# ATTENTION PAS AUTORISÉ DONC MODIF ( mais pour info qd meme)
+# De base un conteneur est ephemere. Si on le docker rm, tt ce qui est ecrit sur le disc virtuel disparait
+# Ms bindmount va creer une passerelle entre un doss de l'ordi hote et un doss du conteneur 
+# permet la persistance des données. Donc si on supprime le conteneur, les données restent sur l'ordi hote
