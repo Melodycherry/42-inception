@@ -17,6 +17,9 @@ fi
 if [ -f "/run/secrets/wp_admin_password" ]; then
     WP_ADMIN_PASSWORD=$(cat /run/secrets/wp_admin_password)
 fi
+if [ -f "/run/secrets/wp_user_password" ]; then
+    WP_USER_PASSWORD=$(cat /run/secrets/wp_user_password)
+fi
 
 # ddl les fichiers de WordPress
 if [ ! -f "wp-config.php" ]; then

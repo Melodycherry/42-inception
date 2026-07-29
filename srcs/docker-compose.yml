@@ -15,6 +15,10 @@ services:
     restart: always
     env_file:
       - ../.env
+    # secrets
+    secrets:
+      - db_password
+      - db_root_password
     # Associe le volume nommé db_data au dossier /var/lib/mysql à l'intérieur du conteneur (là où MariaDB stocke physiquement les tables SQL).
     volumes:
       - db_data:/var/lib/mysql
@@ -34,6 +38,9 @@ services:
       - mariadb
     env_file:
       - ../.env
+    secrets:
+      - db_password
+      - db_root_password
     volumes:
       - wp_data:/var/www/html
     networks:
@@ -59,7 +66,7 @@ services:
     networks:
       - inception_network
 
-# volumes en bindmount x 2
+# volumes PAS en bindmount du coup
 volumes:
   wp_data:
     name: wp_data
@@ -70,6 +77,17 @@ volumes:
 networks:
   inception_network:
     driver: bridge
+
+# ajout des secrets 
+secrets:
+  db_password:
+    file: ../secrets/db_password.txt
+  db_root_password:
+    file: ../secrets/db_root_password.txt
+  wp_admin_password:
+    file: ../secrets/wp_admin_password.txt
+  wp_user_password:
+    file: ../secrets/wp_user_password.txt
 
 # description de l'infrastructure ici
 # version: '3.8'

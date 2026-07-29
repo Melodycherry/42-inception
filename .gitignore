@@ -5,10 +5,7 @@
 # Ignorer le dossier des secrets locaux
 secrets/
 /srcs/secrets/
-*.txt
-*.key
-*.crt
-*.pem
+secrets/*.txt
 
 # Ignorer les fichiers système macOS / Linux
 .DS_Store
