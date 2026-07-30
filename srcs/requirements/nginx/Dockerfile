@@ -46,6 +46,7 @@ CMD ["nginx", "-g", "daemon off;"]
 # -subj : defini les info du certificat ( pays, etat, ville, organisation, unite, nom commun )
 # CN = common name, donc nom de domaine 
 
+# -g : directive globale (ne modif pas le fichier de config principale)
 # daemon off force nginx a garder le control du processus principal 
 
 # pour la COPY :

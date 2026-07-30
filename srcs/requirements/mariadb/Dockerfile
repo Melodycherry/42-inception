@@ -23,7 +23,6 @@ EXPOSE 3306
 ENTRYPOINT ["/usr/local/bin/mariadb.sh"]
 
 
-
 # le docker de maria db va creer la base de donnée
 # doit contenir l'install de mariadb server, la config pour ouvrir le bon port
 # et script pour creer utilistauers de la base de données

@@ -11,6 +11,7 @@ services:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
     container_name: mariadb
+    image: mariadb
     # Si le service plante ou si la machine redémarre, Docker relancera automatiquement le conteneur
     restart: always
     env_file:
@@ -32,6 +33,7 @@ services:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
     container_name: wordpress
+    image: wordpress
     restart: always
     # etabli un ordre : Docker lancera le conteneur mariadb avant de démarrer wordpress
     depends_on:
@@ -52,6 +54,7 @@ services:
       context: ./requirements/nginx
       dockerfile: Dockerfile
     container_name: nginx
+    image: nginx
     restart: always
     # ordre ici aussi : NGINX attend que le conteneur wordpress soit démarré avant de se lancer
     depends_on:
