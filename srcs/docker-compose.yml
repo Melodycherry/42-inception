@@ -71,13 +71,6 @@ services:
     networks:
       - inception_network
 
-# volumes PAS en bindmount du coup
-volumes:
-  wp_data:
-    name: wp_data
-  db_data:
-    name: db_data
-
 # reseau virtuel de type bridge 
 networks:
   inception_network:
@@ -93,6 +86,24 @@ secrets:
     file: ../secrets/wp_admin_password.txt
   wp_user_password:
     file: ../secrets/wp_user_password.txt
+
+# Volumes nommes avec emplacement sur l hote  
+volumes:
+  wp_data:
+    name: wp_data
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/mlaffita/data/wordpress'
+
+  db_data:
+    name: db_data
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/mlaffita/data/mariadb'
 
 # description de l'infrastructure ici
 # version: '3.8'
