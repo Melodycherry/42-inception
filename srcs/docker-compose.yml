@@ -43,6 +43,8 @@ services:
     secrets:
       - db_password
       - db_root_password
+      - wp_admin_password
+      - wp_user_password
     volumes:
       - wp_data:/var/www/html
     networks:
