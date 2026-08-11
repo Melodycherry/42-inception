@@ -2,24 +2,28 @@ NAME = inception
 
 COMPOSE_FILE = srcs/docker-compose.yml
 
-all: up
-
-up:
+all: prepare
 	docker compose -f $(COMPOSE_FILE) up -d --build
+
+prepare:
+	@mkdir -p /home/mlaffita/data/wordpress
+	@mkdir -p /home/mlaffita/data/mariadb
 
 down:
 	docker compose -f $(COMPOSE_FILE) down
 
-clean:
-	docker compose -f $(COMPOSE_FILE) down
+clean: down
+	@sudo rm -rf /home/mlaffita/data/wordpress/*
+	@sudo rm -rf /home/mlaffita/data/mariadb/*
 
 fclean: clean
 	docker compose -f $(COMPOSE_FILE) down -v
 	docker system prune -a --volumes -f
+	@sudo rm -rf /home/mlaffita/data
 
 re: fclean all
 
-.PHONY: all up down clean fclean re
+.PHONY: all prepare down clean fclean re
 
 
 # -d (Mode détaché) : Les conteneurs tournent en arrière-plan. Le terminal rend 
