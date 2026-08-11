@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by mlaffita* 
+*This project has been created as part of the 42 curriculum by < mlaffita >* 
 
 # Description
 The **Inception** project aims to broaden knowledge of system administration by virtualization using Docker.  
