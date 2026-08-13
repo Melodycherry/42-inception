@@ -28,7 +28,7 @@ All services run on a custom bridge network and persist data using Docker named 
 **Docker:**  
 Cody tech Introduction to docker :  
 https://coddy.tech/journeys/terminal/introduction_to_docker  
-Official ressources from docker :
+Official ressources from docker :  
 https://docs.docker.com/  
 https://docs.docker.com/compose/  
 
@@ -53,11 +53,11 @@ Virtualize entire physical hardware systems. Each VM runs a full Guest Operating
 ◦ Secrets vs Environment Variables     
 - **Environment Variables (`.env`):**   
 Passed in plain text to container environments. They are ideal for non-sensitive configuration settings (e.g., database names, domain names, application titles). However, they can leak via `docker inspect`, process inspection, or system logs.   
-- **Docker Secrets:** Sensitive data (passwords, private keys, API tokens) are mounted as read-only files in an in-memory filesystem (`tmpfs`) at `/run/secrets/` inside the target container. They are never committed to image layers, logged, or exposed in plain text to unauthorized processes.
+- **Docker Secrets:** Sensitive data (passwords, private keys, API tokens). They are never committed to image layers, logged, or exposed in plain text to unauthorized processes.
 
 ◦ Docker Network vs Host Network    
 - **Host Network:**  
-Containers share the host machine’s network namespace directly, bypassing network isolation. Container ports are mapped directly to host ports without NAT or proxying.   
+Containers share the host machine’s network namespace directly, bypassing network isolation. Container ports are mapped directly to host ports.   
 - **Docker Network (Custom Bridge):**  
 Creates an isolated virtual bridge network dedicated to the stack. Containers communicate internally using service names as hostname DNS resolution (e.g., `wordpress` reaches `mariadb` directly). External access is strictly controlled via explicitly published ports (e.g., only port `443` on NGINX).  
 
