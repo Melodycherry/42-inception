@@ -2,57 +2,56 @@
 
 This document provides technical guidelines for developers maintaining or modifying the **Inception** infrastructure. 
 
-**Prerequisites**
-Ensure your local environment or Virtual Machine has `docker`, `docker-compose-v2`, and `make` installed:
+**Prerequisites**. 
+Ensure your local environment or Virtual Machine has `docker`, `docker-compose-v2`, and `make` installed:  
 `sudo apt update && sudo apt install -y docker.io docker-compose-v2 make git`
 
 ◦ Project architecture  
-42-inception/  
-├── Makefile  
-├── .env  
+```text
+42-inception/
+├── Makefile
+├── .env
 ├── .gitignore
 ├── README.md
 ├── DEV_DOC.md
 ├── USER_DOC.md
-├── secrets/  
-│   ├── db_password.txt  
-│   ├── db_root_password.txt  
-│   ├── wp_admin_password.txt  
-│   └── wp_user_password.txt  
-└── srcs/  
-    ├── docker-compose.yml  
-    └── requirements/  
-        ├── mariadb/  
-			├── conf
-				├──mariadb.conf
-			├── tools
-				├── mariadb.sh
-			├── .dockerignore
-			├── Dockerfile
-        ├── nginx/  
-			├── conf
-				├── nginx.conf
-			├── .dockerignore
-			├── Dockerfile
-        └── wordpress/  
-			├── conf
-				├── www.conf
-			├── tools
-				├── auto_config.sh
-			├── .dockerignore
-			├── Dockerfile
+├── secrets/
+│   ├── db_password.txt
+│   ├── db_root_password.txt
+│   ├── wp_admin_password.txt
+│   └── wp_user_password.txt
+└── srcs/
+    ├── docker-compose.yml
+    └── requirements/
+        ├── mariadb/
+        │   ├── conf/
+        │   │   └── mariadb.conf
+        │   ├── tools/
+        │   │   └── mariadb.sh
+        │   ├── .dockerignore
+        │   └── Dockerfile
+        ├── nginx/
+        │   ├── conf/
+        │   │   └── nginx.conf
+        │   ├── .dockerignore
+        │   └── Dockerfile
+        └── wordpress/
+            ├── conf/
+            │   └── www.conf
+            ├── tools/
+            │   └── auto_config.sh
+            ├── .dockerignore
+            └── Dockerfile
+```
 
 
-◦ Build and launch the project using the Makefile and Docker Compose. 
+◦ Build and launch the project using the Makefile and Docker Compose.  
 The Makefile automates directory creation, environment verification, and Docker Compose commands:
 `make`
 
-Stop container:  
-`make down`
-Cleaning ressources:  
-`make clean`
-Rebuild from scratch:  
-`make re`
+Stop container: `make down`   
+Cleaning ressources: `make clean`  
+Rebuild from scratch: `make re`  
 
 ◦ Docker compose commande 
 ```
@@ -88,7 +87,7 @@ docker logs mariadb
 ```
  
 ◦ Identify where the project data is stored and how it persists.   
-Data persistence is managed via Docker Named Volumes mapped to the host filesystem inside /home/mlaffita/data/
+Data persistence is managed via Docker Named Volumes mapped to the host filesystem inside /home/mlaffita/data/  
 Check configuration in docker-compose.yml  
 ```
 volumes:
@@ -110,8 +109,7 @@ volumes:
 ```
 
 **Verification**  
-List docker volume:  
-`docker volume ls`
+List docker volume: `docker volume ls`  
 Verify Host Storage Content:  
 ```
 ls -la /home/mlaffita/data/wordpress
@@ -121,6 +119,6 @@ ls -la /home/mlaffita/data/mariadb
 
 **Persistency Test Procedure:**    
 1	Modify an article or site option on WordPress.  
-2	Stop and remove containers: docker compose -f srcs/docker-compose.yml down.  
-3	Relaunch stack: docker compose -f srcs/docker-compose.yml up -d.  
+2	Stop and remove containers: `docker compose -f srcs/docker-compose.yml down`    
+3	Relaunch stack: `docker compose -f srcs/docker-compose.yml up -d`    
 4	Verify that the changes persist on the site.  
