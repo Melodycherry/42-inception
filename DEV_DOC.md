@@ -2,9 +2,6 @@
 
 This document provides technical guidelines for developers maintaining or modifying the **Inception** infrastructure. 
 
-
-◦ Set up the environment from scratch (prerequisites, configuration files, secrets)  
-
 **Prerequisites**
 Ensure your local environment or Virtual Machine has `docker`, `docker-compose-v2`, and `make` installed:
 `sudo apt update && sudo apt install -y docker.io docker-compose-v2 make git`
@@ -13,6 +10,10 @@ Ensure your local environment or Virtual Machine has `docker`, `docker-compose-v
 42-inception/  
 ├── Makefile  
 ├── .env  
+├── .gitignore
+├── README.md
+├── DEV_DOC.md
+├── USER_DOC.md
 ├── secrets/  
 │   ├── db_password.txt  
 │   ├── db_root_password.txt  
@@ -22,8 +23,24 @@ Ensure your local environment or Virtual Machine has `docker`, `docker-compose-v
     ├── docker-compose.yml  
     └── requirements/  
         ├── mariadb/  
+			├── conf
+				├──mariadb.conf
+			├── tools
+				├── mariadb.sh
+			├── .dockerignore
+			├── Dockerfile
         ├── nginx/  
+			├── conf
+				├── nginx.conf
+			├── .dockerignore
+			├── Dockerfile
         └── wordpress/  
+			├── conf
+				├── www.conf
+			├── tools
+				├── auto_config.sh
+			├── .dockerignore
+			├── Dockerfile
 
 
 ◦ Build and launch the project using the Makefile and Docker Compose. 
