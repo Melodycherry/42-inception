@@ -23,7 +23,7 @@ sudo rm -rf /home/student_login/data/*
 This will remove all the docker + volumes already set-up  
 4 - Import the project (normal terminal, not ssh)`scp -P 2222 -r ~/Desktop/42-inception mlaffita@localhost:~/`  
 5 - Import the .env file `scp -P 2222 ~/Desktop/doc-pour-inception/.env mlaffita@localhost:~/42-inception/`  
-6 - Import the secret folder `scp -P 2222 ~/Desktop/doc-pour-inception/.env mlaffita@localhost:~/42-inception/`  
+6 - Import the secret folder `scp -P 2222 -r ~/Desktop/doc-pour-inception/secrets mlaffita@localhost:~/42-inception/`  
 7 - Now you can `make`  
 
 ---  
